@@ -66,13 +66,14 @@ function addBookToLibrary(title, author, pages, read) {
         displayBook(myLibrary.length - 1);
    })
    
-}
+};
 
 
 
 function displayBook(i) {
 
     const book = document.createElement('div');
+    book.setAttribute('data-index', `${i}`);
     book.classList.add('book');
     bookshelf.appendChild(book);
 
@@ -126,6 +127,6 @@ function displayExistingBooks() {
     for (let i = 0; myLibrary.length > i; i++) {
         displayBook(i);  
     }
-}
+};
 
 
