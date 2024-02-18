@@ -1,19 +1,31 @@
-let book = document.querySelector('.book');
-let add = document.querySelector('.add');
-let closse = document.querySelector('#close');
+let addBook = document.querySelector('.add');
 let bookshelf = document.querySelector('.bookshelf');
 let dialog = document.querySelector('dialog');
-const myLibrary = [];
+let submit = document.querySelector('#submit');
 
-add.addEventListener('click', () => {
-    dialog.showModal();
-    // addBookToLibrary();
-})
+const myLibrary = [
+    {
+        title: "Cosmos",
+        author: "Carl Sagan",
+        pages: "396",
+        read: "yes",
+    },
+    {
+        title: "A Brief History Of Time",
+        author: "Stephen Hawking",
+        pages: "256",
+        read: "yes",
+    },
+    {
+        title: "Dune",
+        author: "Frank Herbert",
+        pages: "896",
+        read: "yes",
+    }
+];
 
-closse.addEventListener('click', () => {
-    dialog.close();
-    // addBookToLibrary();
-})
+displayExistingBooks();
+addBookToLibrary();
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -24,26 +36,41 @@ function Book(title, author, pages, read) {
    const info = function() {
     return '"' + title + ' by ' + author + ', ' + pages + ' pages, ' + read + '"';
    }
+};
+
+
+
+function addBookToLibrary(title, author, pages, read) {    
+
+    addBook.addEventListener('click', () => {                           // shows dialog
+        dialog.showModal();
+    })
+   
+   submit.addEventListener('click',(event) => {
+        event.preventDefault();
+
+        title = document.querySelector('#name').value;
+        author = document.querySelector('#author').value;
+        pages = document.querySelector('#pages').value;
+        read = document.querySelector('#read').value;
+
+        document.querySelector('#name').value = '';
+        document.querySelector('#author').value = '';
+        document.querySelector('#pages').value = '';
+        document.querySelector('#read').value = ''; 
+
+        dialog.close();                                             // exits dialog
+        
+        const instation = new Book(title, author, pages, read);           //instantion
+        myLibrary.push(instation);            
+        displayBook(myLibrary.length - 1);
+   })
+   
 }
 
-function addBookToLibrary(title, author, pages, read) {         //input
-   title = prompt('title?');
-   author = prompt('author?');
-   pages = prompt('pages?');
-   read = prompt('read?');
-
-   const book = new Book(title, author, pages, read);           //instantion
-   myLibrary.push(book);            
-   console.log(myLibrary);
-   displayBook();
-}
 
 
-
-
-function displayBook() {
-
-    let obj = myLibrary[myLibrary.length - 1];
+function displayBook(i) {
 
     const book = document.createElement('div');
     book.classList.add('book');
@@ -51,7 +78,7 @@ function displayBook() {
 
     const title = document.createElement('div');
     title.textContent = "Title:";
-    title.textContent += ` ${obj.title}`;
+    title.textContent += ` ${myLibrary[i].title}`;
     book.appendChild(title);
 
     const hr1 = document.createElement('hr');
@@ -59,7 +86,7 @@ function displayBook() {
 
     const author = document.createElement('div');
     author.textContent = "Author:";
-    author.textContent += ` ${obj.author}`;
+    author.textContent += ` ${myLibrary[i].author}`;
     book.appendChild(author);
 
     const hr2 = document.createElement('hr');
@@ -67,7 +94,7 @@ function displayBook() {
 
     const pages = document.createElement('div');
     pages.textContent = "Pages:";
-    pages.textContent += ` ${obj.pages}`;
+    pages.textContent += ` ${myLibrary[i].pages}`;
     book.appendChild(pages);
 
     const hr3 = document.createElement('hr');
@@ -75,7 +102,7 @@ function displayBook() {
 
     const read = document.createElement('div');
     read.textContent = "Status:";
-    read.textContent += ` ${obj.read}`;
+    read.textContent += ` ${myLibrary[i].read}`;
     book.appendChild(read);
 
     const hr4 = document.createElement('hr');
@@ -94,4 +121,11 @@ function displayBook() {
     status.textContent = "Status";
 }
 
-// addBookToLibrary();
+function displayExistingBooks() {
+
+    for (let i = 0; myLibrary.length > i; i++) {
+        displayBook(i);  
+    }
+}
+
+
