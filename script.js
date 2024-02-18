@@ -1,10 +1,18 @@
 let book = document.querySelector('.book');
 let add = document.querySelector('.add');
+let closse = document.querySelector('#close');
 let bookshelf = document.querySelector('.bookshelf');
+let dialog = document.querySelector('dialog');
 const myLibrary = [];
 
 add.addEventListener('click', () => {
-    addBookToLibrary();
+    dialog.showModal();
+    // addBookToLibrary();
+})
+
+closse.addEventListener('click', () => {
+    dialog.close();
+    // addBookToLibrary();
 })
 
 function Book(title, author, pages, read) {
@@ -86,4 +94,4 @@ function displayBook() {
     status.textContent = "Status";
 }
 
-addBookToLibrary();
+// addBookToLibrary();
