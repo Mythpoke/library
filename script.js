@@ -38,7 +38,10 @@ function Book(title, author, pages, read) {
    }
 };
 
+const proto = Object.create(myLibrary);
 
+proto[0].read = "no";
+console.log(proto[0].read);
 
 function addBookToLibrary(title, author, pages, read) {    
 
@@ -120,6 +123,29 @@ function displayBook(i) {
     const status = document.createElement('button');
     buttons.appendChild(status);
     status.textContent = "Status";
+
+    removeBook(book, remove);
+    toggleStatus(book, status, read);
+};
+
+function removeBook(book, remove) {
+    remove.addEventListener('click',() => {
+        
+        book.remove();
+        myLibrary.splice(book.dataset.index, 1); 
+
+        let books = document.querySelectorAll('.book');
+        for(let i = 0; books.length > i; i++) {
+            books[i].dataset.index = `${i}`;
+        }   
+    });
+}
+
+function toggleStatus(book, status, read) {
+    status.addEventListener('click', () => {
+        myLibrary[book.dataset.index].read = 'no';
+        read.textContent = "Status: " + `${myLibrary[book.dataset.index].read}`;
+    })
 }
 
 function displayExistingBooks() {
@@ -128,5 +154,3 @@ function displayExistingBooks() {
         displayBook(i);  
     }
 };
-
-
