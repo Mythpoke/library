@@ -2,27 +2,30 @@ let addBook = document.querySelector('.add');
 let bookshelf = document.querySelector('.bookshelf');
 let dialog = document.querySelector('dialog');
 let submit = document.querySelector('#submit');
+ 
 
 const myLibrary = [
     {
         title: "Cosmos",
         author: "Carl Sagan",
         pages: "396",
-        read: "yes",
+        read: true,
     },
     {
         title: "A Brief History Of Time",
         author: "Stephen Hawking",
         pages: "256",
-        read: "yes",
+        read: false,
     },
     {
         title: "Dune",
         author: "Frank Herbert",
         pages: "896",
-        read: "yes",
+        read: false,
     }
 ];
+
+
 
 displayExistingBooks();
 addBookToLibrary();
@@ -38,10 +41,9 @@ function Book(title, author, pages, read) {
    }
 };
 
-const proto = Object.create(myLibrary);
 
-proto[0].read = "no";
-console.log(proto[0].read);
+
+
 
 function addBookToLibrary(title, author, pages, read) {    
 
@@ -55,13 +57,14 @@ function addBookToLibrary(title, author, pages, read) {
         title = document.querySelector('#name').value;
         author = document.querySelector('#author').value;
         pages = document.querySelector('#pages').value;
-        read = document.querySelector('#read').value;
-
+        read = document.querySelector('#read').checked;
+        console.log(read);
+        read === false ? read = false : read = true;
         document.querySelector('#name').value = '';
         document.querySelector('#author').value = '';
         document.querySelector('#pages').value = '';
-        document.querySelector('#read').value = ''; 
-
+        document.querySelector('#read').checked = false; 
+                                                                                                    
         dialog.close();                                             // exits dialog
         
         const instation = new Book(title, author, pages, read);           //instantion
@@ -105,8 +108,7 @@ function displayBook(i) {
     book.appendChild(hr3);
 
     const read = document.createElement('div');
-    read.textContent = "Status:";
-    read.textContent += ` ${myLibrary[i].read}`;
+    read.textContent = "Status:" + ` ${myLibrary[i].read === true ? "Already read": "Not read"}`;
     book.appendChild(read);
 
     const hr4 = document.createElement('hr');
@@ -143,8 +145,8 @@ function removeBook(book, remove) {
 
 function toggleStatus(book, status, read) {
     status.addEventListener('click', () => {
-        myLibrary[book.dataset.index].read = 'no';
-        read.textContent = "Status: " + `${myLibrary[book.dataset.index].read}`;
+        myLibrary[book.dataset.index].read = !myLibrary[book.dataset.index].read;
+        myLibrary[book.dataset.index].read === true ? read.textContent = "Status: Already read": read.textContent = "Status: Not read";
     })
 }
 
