@@ -2,46 +2,25 @@ let addBook = document.querySelector('.add');
 let bookshelf = document.querySelector('.bookshelf');
 let dialog = document.querySelector('dialog');
 let submit = document.querySelector('#submit');
- 
+const myLibrary = [];
 
-const myLibrary = [
-    {
-        title: "Cosmos",
-        author: "Carl Sagan",
-        pages: "396",
-        read: true,
-    },
-    {
-        title: "A Brief History Of Time",
-        author: "Stephen Hawking",
-        pages: "256",
-        read: false,
-    },
-    {
-        title: "Dune",
-        author: "Frank Herbert",
-        pages: "896",
-        read: false,
-    }
-];
-
-
+myLibrary.push(new Book("Cosmos", "Carl Sagan", "396", true)); 
+myLibrary.push(new Book("A Brief History Of Time", "Stephen Hawking", "256", false)); 
+myLibrary.push(new Book("Dune", "Frank Herbert", "896", false));    
 
 displayExistingBooks();
 addBookToLibrary();
 
 function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-
-   const info = function() {
-    return '"' + title + ' by ' + author + ', ' + pages + ' pages, ' + read + '"';
-   }
+    this.title = title; 
+    this.author = author;   
+    this.pages = pages;   
+    this.read = read;                
 };
 
-
+Book.prototype.toggle = function() {
+    this.read = !this.read;
+}
 
 
 
@@ -64,7 +43,7 @@ function addBookToLibrary(title, author, pages, read) {
         document.querySelector('#author').value = '';
         document.querySelector('#pages').value = '';
         document.querySelector('#read').checked = false; 
-                                                                                                    
+
         dialog.close();                                             // exits dialog
         
         const instation = new Book(title, author, pages, read);           //instantion
@@ -145,7 +124,7 @@ function removeBook(book, remove) {
 
 function toggleStatus(book, status, read) {
     status.addEventListener('click', () => {
-        myLibrary[book.dataset.index].read = !myLibrary[book.dataset.index].read;
+        myLibrary[book.dataset.index].toggle();
         myLibrary[book.dataset.index].read === true ? read.textContent = "Status: Already read": read.textContent = "Status: Not read";
     })
 }
@@ -156,3 +135,6 @@ function displayExistingBooks() {
         displayBook(i);  
     }
 };
+
+
+
