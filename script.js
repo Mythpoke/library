@@ -4,6 +4,20 @@ let dialog = document.querySelector('dialog');
 let submit = document.querySelector('#submit');
 const myLibrary = [];
 
+class Book {                            // classes are not hoisted
+
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    toggle() {
+        this.read = !this.read;
+    }
+}
+
 myLibrary.push(new Book("Cosmos", "Carl Sagan", "396", true)); 
 myLibrary.push(new Book("A Brief History Of Time", "Stephen Hawking", "256", false)); 
 myLibrary.push(new Book("Dune", "Frank Herbert", "896", false));    
@@ -11,16 +25,16 @@ myLibrary.push(new Book("Dune", "Frank Herbert", "896", false));
 displayExistingBooks();
 addBookToLibrary();
 
-function Book(title, author, pages, read) {
-    this.title = title; 
-    this.author = author;   
-    this.pages = pages;   
-    this.read = read;                
-};
+// function Book(title, author, pages, read) {          contructors are hoisted, because they are classes
+//     this.title = title; 
+//     this.author = author;   
+//     this.pages = pages;   
+//     this.read = read;                
+// };
 
-Book.prototype.toggle = function() {
-    this.read = !this.read;
-}
+// Book.prototype.toggle = function() {
+//     this.read = !this.read;
+// };
 
 
 
@@ -28,9 +42,9 @@ function addBookToLibrary(title, author, pages, read) {
 
     addBook.addEventListener('click', () => {                           // shows dialog
         dialog.showModal();
-    })
+    });
    
-   submit.addEventListener('click',(event) => {
+    submit.addEventListener('click',(event) => {
         event.preventDefault();
 
         title = document.querySelector('#name').value;
@@ -46,10 +60,10 @@ function addBookToLibrary(title, author, pages, read) {
 
         dialog.close();                                             // exits dialog
         
-        const instation = new Book(title, author, pages, read);           //instantion
-        myLibrary.push(instation);            
+        const newBook = new Book(title, author, pages, read);           //instantion
+        myLibrary.push(newBook);            
         displayBook(myLibrary.length - 1);
-   })
+   });
    
 };
 
@@ -120,14 +134,14 @@ function removeBook(book, remove) {
             books[i].dataset.index = `${i}`;
         }   
     });
-}
+};
 
 function toggleStatus(book, status, read) {
     status.addEventListener('click', () => {
         myLibrary[book.dataset.index].toggle();
         myLibrary[book.dataset.index].read === true ? read.textContent = "Status: Already read": read.textContent = "Status: Not read";
     })
-}
+};
 
 function displayExistingBooks() {
 
