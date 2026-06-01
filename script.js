@@ -1,7 +1,10 @@
-let addBook = document.querySelector('.add');
-let bookshelf = document.querySelector('.bookshelf');
-let dialog = document.querySelector('dialog');
-let submit = document.querySelector('#submit');
+const addBook = document.querySelector('.add');
+const bookshelf = document.querySelector('.bookshelf');
+const dialog = document.querySelector('dialog');
+const inputName = document.querySelector('#name');
+const inputAuthor = document.querySelector('#author');
+const inputPages = document.querySelector('#pages');
+const form = document.querySelector('form');
 const myLibrary = [];
 
 class Book {                            // classes are not hoisted
@@ -44,7 +47,31 @@ function addBookToLibrary(title, author, pages, read) {
         dialog.showModal();
     });
    
-    submit.addEventListener('click',(event) => {
+    inputName.addEventListener('invalid', () => {
+        inputName.setCustomValidity('The book name must be filled!');
+    });
+
+    inputName.addEventListener('input', () => {
+        inputName.setCustomValidity('');
+    });
+
+    inputAuthor.addEventListener('invalid', () => {
+        inputAuthor.setCustomValidity('The author name must be filled!');
+    });
+
+    inputAuthor.addEventListener('input', () => {
+        inputAuthor.setCustomValidity('');
+    });
+
+    inputPages.addEventListener('invalid', () => {
+        inputPages.setCustomValidity('The number of pages must be filled!');
+    });
+
+    inputPages.addEventListener('input', () => {
+        inputPages.setCustomValidity('');
+    });
+
+    form.addEventListener('submit', (event) => {
         event.preventDefault();
 
         title = document.querySelector('#name').value;
@@ -152,3 +179,4 @@ function displayExistingBooks() {
 
 
 
+console.table(myLibrary);
